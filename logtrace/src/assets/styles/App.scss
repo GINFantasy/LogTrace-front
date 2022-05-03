@@ -1,0 +1,76 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: var(--main-text);
+    &::-webkit-scrollbar{
+        width: 3px;
+        border-radius: 10px;
+        background-color:#f2f2f2;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #8ac6d1;
+        border-radius: 5px;
+    }
+    &::-webkit-scrollbar-track-piece {
+        background-color: white;
+    }
+}
+
+
+
+/*包含以下四种的链接*/
+a {
+    text-decoration: none;
+    color: black;
+    &:hover{
+        color: black;
+    }
+}
+
+p {
+    margin: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+    /*消除默认点击蓝色边框效果*/
+    outline: none;
+}
+
+input {
+    outline: none;
+    border: none;
+}
+li{
+    list-style: circle;
+    margin-top: 6px;
+}
+:root {
+    --theme: #8ac6d1;
+    --deep-theme:#56738d;
+    /* 色彩规范 */
+    --tips-text: #BFBFBF;
+    --main-text: #999;
+    --input-text: rgba(240, 241, 242);
+
+    /* 字体 */
+    --theme-family: 'Noto Sans S Chinese';
+    /* 背景色 */
+    --theme-bgc: #282c34;
+}
+#root{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-y: overlay;
+    background: var(--theme-bgc);
+}

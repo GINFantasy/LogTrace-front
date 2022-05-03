@@ -1,0 +1,26 @@
+.error-text{
+    color: #d74e45;
+}
+
+.log-info-item{
+    width: 100%;
+    color: var(--main-text);
+    margin-top: 10px;
+    span{
+        margin: 0 4px;
+        display: inline-block;
+    }
+    .info-level-INFO{
+        color: #389e0d;
+    }
+    .info-level-ERROR{
+        color: #d74e45;
+    }
+    .info-level-COME,.info-level-EXIT{
+        color: #d48806;
+    }
+
+    .info-site{
+        color: #2979c1;
+    } 
+}

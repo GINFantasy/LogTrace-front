@@ -1,0 +1,71 @@
+.log-box{
+    width: 100%;
+    border-radius: 4px;
+    padding:0 8px;
+    border: 1px solid #bfbfbf;
+    background: #373939;
+    margin: 20px 0;
+}
+
+.log-header{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #bfbfbf;
+    min-height: 40px;
+    align-items: center;
+    span{
+        margin: 0 4px;
+    }
+    .log-createTime{
+        color: #d4b106;
+    }
+
+    .log-level-INFO{
+        color: #597ef7;
+        color: #7cb305;
+    }
+
+    .log-level-ERROR{
+        color: #ff7875;
+    }
+
+    .log-thread{
+        color: #9f72b6;
+    }
+
+    .log-site{
+        color: #398eca;
+    }
+
+    .log-mode{
+        color: #36cfc9;
+    }
+    .log-type{
+        color: #fa8c16;
+    }
+    
+}
+
+.log-main{
+    margin: 10px 24px;
+    .main-title{
+        font-weight: bold;
+        color: #bfbfbf;
+        span{
+            font-weight: normal;
+        }
+    }
+    .log-datalist{
+        margin: 10px 24px;
+    }
+    .log-stackList{
+        
+        margin: 0 24px;
+        li{
+            white-space:normal;
+            word-break : break-all;
+            word-wrap: break-word;
+            font-weight: normal;
+        }
+    }
+}

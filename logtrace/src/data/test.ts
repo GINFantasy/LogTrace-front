@@ -1,4 +1,5 @@
-let logdata = [
+import { LogMessage } from './../custom_types/Log.d';
+let logdata:LogMessage[] = [
     {
         "read": 0,	// 是否已读
         "createTime": "2022-05-01 20:01:10",  // 产生时间

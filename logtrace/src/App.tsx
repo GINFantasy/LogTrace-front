@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import 'antd/dist/antd.css';
 import { Route,Routes } from 'react-router-dom'
 import Layout from './pages/Layout'
 import './assets/styles/App.scss'
@@ -6,11 +6,11 @@ import './assets/styles/App.scss'
 function App() {
   
   return (
-    <div className="App">
+    <>
        <Routes>
         <Route path="/*" element={ <Layout/>}></Route>
       </Routes>
-    </div>
+    </>
   )
 }
 

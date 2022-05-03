@@ -2,10 +2,11 @@ import {routes} from '../route/index'
 import { Route,Routes } from 'react-router-dom'
 import '../assets/styles/Layout.scss'
 
+
 export default function Layout(){
 
     return <div className="wrapper">
-        
+        <header></header>
         <div className='main-ct'>
             <Routes location={location}>
                 {
@@ -23,8 +24,6 @@ export default function Layout(){
                     </Route>)                     
                 }                        
             </Routes>
-            
-            
         </div>
     </div>
 }
