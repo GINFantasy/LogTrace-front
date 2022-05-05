@@ -1,4 +1,3 @@
-import 'antd/dist/antd.css';
 import { Route,Routes } from 'react-router-dom'
 import Layout from './pages/Layout'
 import './assets/styles/App.scss'

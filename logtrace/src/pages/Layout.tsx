@@ -1,12 +1,15 @@
 import {routes} from '../route/index'
 import { Route,Routes } from 'react-router-dom'
 import '../assets/styles/Layout.scss'
-
+import { useState } from 'react'
 
 export default function Layout(){
 
+
     return <div className="wrapper">
-        <header></header>
+        <header>
+            <div className="logo">LogTrace</div>
+        </header>
         <div className='main-ct'>
             <Routes location={location}>
                 {

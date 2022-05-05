@@ -1,12 +1,28 @@
 .log-box{
-    width: 100%;
+    width: 80%;
     border-radius: 4px;
     padding:0 8px;
     border: 1px solid #bfbfbf;
     background: #373939;
     margin: 20px 0;
+    position: relative;
+    transition: .4s all ease-out;
+    overflow: hidden;
+    .read-btn{
+        position: absolute;
+        right: -80px;
+        width: 80px;
+        text-align: center;
+        height: 34px;
+        border-radius: 6px;
+        border: 1px solid #bfbfbf;
+        cursor: pointer;
+        line-height: 34px;
+    }
 }
-
+.log-main-isread{
+    display: none;
+}
 .log-header{
     display: flex;
     justify-content: space-between;
@@ -53,6 +69,12 @@
         color: #bfbfbf;
         span{
             font-weight: normal;
+            display: inline-block;
+            max-width: calc(100% - 40px);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: hidden;
+            vertical-align: bottom;
         }
     }
     .log-datalist{

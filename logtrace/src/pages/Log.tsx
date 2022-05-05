@@ -1,10 +1,11 @@
 import '../assets/styles/Log.scss'
 import { LogMessage } from 'custom_types/Log';
-import {logdata} from '../data/test.js'
 import LogBox from '../components/LogBox';
 import { useEffect, useState } from 'react';
 import {wsUrl} from '../request/api'
 import { LogApi } from '../request/api' 
+import MySelect from '../components/MySelect'
+import {TYPE,LEVEL} from '../data/test'
 type Ws =  WebSocket | null 
 const initLogParam = {
     level:'null',
@@ -14,17 +15,24 @@ const initLogParam = {
 }
 export default function Log(){
     const [logData,setLogData] = useState<LogMessage[]>([]);
-
     // 处理websocket的函数
     let connect:boolean = false
     let ws:Ws = null;          
     let exit:boolean = false;
+
+    const selectType = () => {
+        
+    }
+    const selectLevel = () => {
+        
+    }
     useEffect(() => {
         createWebSocket(wsUrl);   //连接ws
         // 获取最近10条历史记录 
         LogApi.getLog(initLogParam).then((res)=>{
             const {data} = res;
-            setLogData((v:LogMessage[])=>[data,...v]); 
+            if(!data) return;
+            setLogData((v:LogMessage[])=>data); 
         }).catch(err=>{
             console.log(err);
         })
@@ -113,9 +121,17 @@ export default function Log(){
         }
     };
     return <div className='log-ct'>
-        {
-            logData.map((v:LogMessage,i)=><LogBox data={v} key={i}/>)
-        } 
+        <aside>
+            <div className="control-ct">
+                <MySelect optionsList={LEVEL} title='日志级别' handleSelect={selectLevel}></MySelect>
+                <MySelect optionsList={TYPE} title='日志类型'handleSelect={selectType} ></MySelect>
+            </div>
+        </aside>
+        <div className="log-content">
+            {
+                logData.map((v:LogMessage,i)=><LogBox data={v} key={i}/>)
+            } 
+        </div>
     </div>
 }
 

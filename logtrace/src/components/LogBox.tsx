@@ -1,4 +1,5 @@
 import { LogMessage } from "custom_types/Log";
+import { useState } from "react";
 import '../assets/styles/LogBox.scss'
 import InfoItem from "./InfoItem";
 import ParamList from "./ParamList";
@@ -10,8 +11,22 @@ import ParamList from "./ParamList";
 export default function LogBox (props:{data:LogMessage}){
     let {data} = props;
     if(!data) return <></>
-    
-    return <div className="log-box">
+    const [isRead,setIsRead] = useState<number>(data.read);
+    const [isFold,setIsFold] = useState<number>(data.read);
+    const switchFold = () => {
+        if(!isRead){
+            // 设置为已读
+
+            setIsRead(1);
+        }
+
+        setIsFold((v:number)=>{
+            if(v===1) return 0;
+            else return 1;
+        });
+    }
+
+    return <div className='log-box'>
         <div className="log-header">
             <span className="log-createTime" title="产生时间">{data.createTime}</span>
             <span className={`log-level-${data.level}`} title="级别">{data.level}</span>
@@ -19,10 +34,11 @@ export default function LogBox (props:{data:LogMessage}){
             <span className="log-site" title="产生位置">{data.site}</span>
             <span className="log-mode" title="日志模式">{data.mode}</span>
             <span className="log-type" title="日志类别">{data.type}</span>
+            <span className={`iconfont icon-zhedie ${isFold?'isread':''}`} onClick={switchFold}></span>
         </div>
         {
             data.level !== 'INLINE'
-            ? <ol className="log-main">
+            ? <ol className={`log-main ${isFold?'log-main-isread':''}`}>
                 <li className="main-title">请求路径：<span>{data.requestPath}</span></li>
                 <li className="main-title">所属父类：<span>{data.className}</span></li>
                 <li className="main-title">所属方法：<span>{data.methodName}</span></li>

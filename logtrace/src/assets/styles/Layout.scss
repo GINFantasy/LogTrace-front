@@ -5,11 +5,24 @@
     flex-direction: column;
     align-items: center;
     header{
-        width: 100%;
         height: 50px;
+        width: 100%;
+        position: fixed;
+        z-index: 2;
+        border-bottom: 1px solid #8f8f8f;
+        display: flex;
+        align-items: center;
+        background: var(--theme-bgc);
+        .logo{
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: 20px;
+        }
     }
+    
     .main-ct{
         height: calc(100% - 50px);
+        margin-top: 50px;
         width: 100%;
         display: flex;
         justify-content: center;

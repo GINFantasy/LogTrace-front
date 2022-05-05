@@ -1,4 +1,35 @@
-
+@import 'antd/dist/antd.dark.css';
+@font-face {
+    font-family: "iconfont"; /* Project id 3378536 */
+    src: url('//at.alicdn.com/t/font_3378536_1zetfhxkpic.woff2?t=1651751692966') format('woff2'),
+         url('//at.alicdn.com/t/font_3378536_1zetfhxkpic.woff?t=1651751692966') format('woff'),
+         url('//at.alicdn.com/t/font_3378536_1zetfhxkpic.ttf?t=1651751692966') format('truetype');
+  }
+  
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-zhedie{
+    transition: .3s all ease-out;
+    &::before{
+        content: "\e6cf";
+        font-size: 20px;
+        cursor: pointer;
+        transition: .3s all;
+    }
+    
+    &:hover{
+        text-shadow: 0 0 2px #fff;
+    }
+  }
+  .isread{
+    transform: rotate(180deg);
+  }
 * {
     padding: 0;
     margin: 0;
