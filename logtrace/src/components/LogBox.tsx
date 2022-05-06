@@ -27,17 +27,17 @@ export default function LogBox (props:{data:LogMessage}){
     }
 
     return <div className='log-box'>
-        <div className={`log-header ${isFold?'log-header-isread':''}`}>
+        <div className={`log-header ${isFold?'log-header-isread':''}`} onClick={switchFold}>
             <span className="log-createTime" title="产生时间">{data.createTime}</span>
             <span className={`log-level-${data.level}`} title="级别">{data.level}</span>
             <span className="log-thread" title="所在线程">{data.thread}</span>
             <span className="log-site" title="产生位置">{data.site}</span>
             <span className="log-mode" title="日志模式">{data.mode}</span>
             <span className="log-type" title="日志类别">{data.type}</span>
-            <span className={`iconfont icon-zhedie ${isFold?'isread':''}`} onClick={switchFold}></span>
+            <span className={`iconfont icon-zhedie ${isFold?'isread':''}`}></span>
         </div>
         {
-            data.level !== 'INLINE'
+            data.mode !== 'INLINE'
             ? <ol className={`log-main ${isFold?'log-main-isread':''}`}>
                 <li className="main-title">请求路径：<span>{data.requestPath}</span></li>
                 <li className="main-title">所属父类：<span>{data.className}</span></li>
@@ -63,7 +63,7 @@ export default function LogBox (props:{data:LogMessage}){
                     :<></>
                 }
             </ol>
-            : <ol className="log-datalist">
+            : <ol className={`log-datalist ${isFold?'log-main-isread':''}`}>
                 {
                     data.logDataList.map((v,i)=><InfoItem data={v} key={i}/>)
                 }

@@ -44,5 +44,29 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        .back-top-box{
+            width: 34px;
+            height: 34px;
+            position: fixed;
+            z-index: 3;
+            right: 40px;
+            top: 70px;
+        }
+        .backtop-btn{
+            width: 34px;
+            height: 34px;
+            font-size: 20px;
+            line-height: 34px;
+            color: #bfbfbf;
+            text-align: center;
+            border-radius: 4px;
+            transition: .3s all ease-out;
+            border: 1px solid #bfbfbf;
+            cursor: pointer;
+            &:hover{
+                border-color: #dfdfe1;
+                color: #dfdfe1;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ import { LogApi } from '../request/api'
 import MySelect from '../components/MySelect'
 import { TYPE,LEVEL } from '../data/test'
 import { Message } from '../utils/index'
-import { Empty } from 'antd'
+import { Empty,Badge } from 'antd'
 import LoadingCover from '../components/LoadingCover'
 import {handleScrollBottom,debounce} from '../utils/index'
 type Ws =  WebSocket | null 
@@ -19,11 +19,24 @@ const initLogParam = {
     max:10
 }
 let nowPage = 1;
+let nowLogIndex = -1;
+const handleLogScroll = (callback:Function,offset:number) => {
+    handleScrollBottom(callback,50);
+    if(nowLogIndex === -1) {
+        return;
+    } 
+    const logboxs = document.querySelectorAll('.log-box');
+    const lastSawLogTop = (logboxs[logboxs.length - nowLogIndex] as HTMLElement).offsetTop;
+    let scrollTop=document.documentElement.scrollTop;
+    
+}
+
 const addScrollListener = (callback:Function) => {
-    window.addEventListener("scroll", debounce(()=>handleScrollBottom(callback,50), 500));
+    window.addEventListener("scroll", debounce(()=>handleLogScroll(callback,50), 500));
 }
 
 export default function Log(){
+    const [count,setCount] = useState<number>(0);
     const [loading,setLoading] = useState<boolean>(true);
     const [logData,setLogData] = useState<LogMessage[]>([]);
     const [type,setType] = useState<string>('ALL');
@@ -32,6 +45,15 @@ export default function Log(){
     let connect:boolean = false
     let ws:Ws = null;          
     let exit:boolean = false;
+
+    const recordNewLog = (logdata:LogMessage[]) => { 
+        if(nowLogIndex === -1){
+            nowLogIndex = logdata.length;
+        }
+        setCount(v=>{
+            return v + 1
+        });
+    }
 
     const filter = ()=>{
         let param = {
@@ -69,9 +91,11 @@ export default function Log(){
                 Message.error('服务器返回数据格式非数组，请检查！');
             }            
             else {
+                let scrollTop=document.documentElement.scrollTop// 滚动条在Y轴滚动过的高度
                 setLogData(v=>{
                     return [...v,...data]
                 });
+                document.documentElement.scrollTop = scrollTop;
             }
             Message.destroy();
         }).catch(err=>{
@@ -163,17 +187,24 @@ export default function Log(){
         };
         ws.onerror = function (res) {
             connect = false;
-            console.log(res);
             console.log("连接错误!",res);
         };
         ws.onopen = function () {
             heartCheck.reset().start();      //心跳检测重置
             console.log("连接成功!");
         };
-        ws.onmessage = function (res) {    //如果获取到消息，心跳检测重置
-            heartCheck.reset().start();      //拿到任何消息都说明当前连接是正常的
-            let data:LogMessage = JSON.parse(res.data);
-            setLogData((v:LogMessage[])=>[data,...v]);
+        ws.onmessage = function (res) {    // 如果获取到消息，心跳检测重置
+            heartCheck.reset().start();      // 拿到任何消息都说明当前连接是正常的
+            // let scrollTop=document.documentElement.scrollTop// 滚动条在Y轴滚动过的高度
+            // let scrollHeight=document.documentElement.scrollHeight// 滚动条的高度
+            // let data:LogMessage = JSON.parse(res.data);
+            // setLogData((v:LogMessage[])=>{
+            //     recordNewLog(v);
+            //     return [data,...v];
+            // });
+            
+            // // 设置滚动条位置，防止新日志进来时当前视口往下滑
+            // document.documentElement.scrollTop = scrollTop + document.documentElement.scrollHeight - scrollHeight;
         }
     };
     return <div className='log-ct'>
@@ -184,12 +215,17 @@ export default function Log(){
                 <div className="control-filter" onClick={filter}>筛选</div>
             </div>
         </aside>
-        <div className="log-content">
+        <div className="log-content">   
+            <div className="back-top-box">
+                <Badge count={count} color='volcano'>
+                    <div className='backtop-btn' title='回到顶部'>↑</div>
+                </Badge>
+            </div>
             <LoadingCover loading={loading} tip='加载中...'/>
             {
                 logData.length === 0
                 ?<Empty></Empty>
-                :logData.map((v:LogMessage,i)=><LogBox data={v} key={i}/>)
+                :logData.map((v:LogMessage,i:number)=><LogBox data={v} key={`${v.createTime}-${v.className}-${i}`}/>)
             } 
         </div>
     </div>

@@ -38,3 +38,9 @@ export function debounce(fn:Function, delay:number) {
       timer = setTimeout(fn, delay); // 简化写法
     };
 }
+
+export function getLineNumber(dom:HTMLElement,lineheight:number){
+    let styles = window.getComputedStyle(dom, null);
+    let h = parseInt(styles.height, 10);
+    return h/lineheight;
+}

@@ -19,8 +19,25 @@
     .info-level-COME,.info-level-EXIT{
         color: #d48806;
     }
-
+    .info-level-INFO,.info-level-COME,.info-level-EXIT,.info-level-ERROR{
+        min-width: 3em;
+        display: inline-block;
+    }
     .info-site{
         color: #2979c1;
     } 
+    .info-content{
+        max-width: 100%;
+        color: var(--main-text);
+        vertical-align: bottom;
+        line-height: 24px;
+    }
+    .info-content-control{
+        color: #bfbfbf;
+        cursor: pointer;
+        transition: .3s all ease-out;
+        &:hover{
+            color: aliceblue;
+        }
+    }
 }

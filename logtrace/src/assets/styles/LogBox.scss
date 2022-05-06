@@ -16,12 +16,22 @@
         height: 34px;
         border-radius: 6px;
         border: 1px solid #bfbfbf;
-        cursor: pointer;
         line-height: 34px;
+    }
+    .log-datalist{
+        margin-left: 24px;
     }
 }
 .log-main-isread{
     display: none;
+}
+.ant-back-top{
+    right: 40px!important;
+    top: 100px;
+}
+.ant-typography{
+    display: inline-block;
+    margin-bottom: 0!important;
 }
 .log-header{
     display: flex;
@@ -29,22 +39,28 @@
     border-bottom: 1px solid #bfbfbf;
     min-height: 40px;
     align-items: center;
+    cursor: pointer;
     span{
         margin: 0 4px;
     }
     .log-createTime{
         color: #d4b106;
+        min-width: 10em;
     }
 
     .log-level-INFO{
-        color: #597ef7;
         color: #7cb305;
+        min-width: 2.5em;
     }
 
     .log-level-ERROR{
         color: #ff7875;
+        min-width: 2.5em;
     }
-
+    .log-level-WARN{
+        color: #ffa940;
+        min-width: 2.5em;
+    }
     .log-thread{
         color: #9f72b6;
     }
@@ -55,9 +71,11 @@
 
     .log-mode{
         color: #36cfc9;
+        min-width: 3em;
     }
     .log-type{
         color: #fa8c16;
+        min-width: 3em;
     }
     
 }
