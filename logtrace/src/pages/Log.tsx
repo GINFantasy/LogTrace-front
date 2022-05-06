@@ -5,27 +5,80 @@ import { useEffect, useState } from 'react';
 import {wsUrl} from '../request/api'
 import { LogApi } from '../request/api' 
 import MySelect from '../components/MySelect'
-import {TYPE,LEVEL} from '../data/test'
+import { TYPE,LEVEL } from '../data/test'
+import { Message } from '../utils/index'
+import { Empty } from 'antd'
+import LoadingCover from '../components/LoadingCover'
+import {handleScrollBottom,debounce} from '../utils/index'
 type Ws =  WebSocket | null 
+const MAX:number = 10;
 const initLogParam = {
-    level:'null',
-    type:'null',
+    level:'ALL',
+    type:'ALL',
     last:0,
     max:10
 }
+let nowPage = 1;
+const addScrollListener = (callback:Function) => {
+    window.addEventListener("scroll", debounce(()=>handleScrollBottom(callback,50), 500));
+}
+
 export default function Log(){
+    const [loading,setLoading] = useState<boolean>(true);
     const [logData,setLogData] = useState<LogMessage[]>([]);
+    const [type,setType] = useState<string>('ALL');
+    const [level,setLevel] = useState<string>('ALL');
     // 处理websocket的函数
     let connect:boolean = false
     let ws:Ws = null;          
     let exit:boolean = false;
 
-    const selectType = () => {
-        
+    const filter = ()=>{
+        let param = {
+            type,
+            level,
+            last:0,
+            max:MAX
+        }
+        setLoading(true);
+        LogApi.getLog(param).then(res=>{
+            const {data} = res;   
+            if(!(data instanceof Array)){
+                Message.error('服务器返回数据格式非数组，请检查！');
+            }            
+            else {
+                setLogData(data);
+            }
+            setLoading(false);
+        }).catch(err=>{
+            throw err;
+        })
     }
-    const selectLevel = () => {
-        
+
+    const addLog = ()=>{
+        let param = {
+            type,
+            level,
+            last:nowPage++,
+            max:MAX
+        }
+        Message.loading('正在获取日志...');
+        LogApi.getLog(param).then(res=>{
+            const {data} = res;   
+            if(!(data instanceof Array)){
+                Message.error('服务器返回数据格式非数组，请检查！');
+            }            
+            else {
+                setLogData(v=>{
+                    return [...v,...data]
+                });
+            }
+            Message.destroy();
+        }).catch(err=>{
+            throw err;
+        })
     }
+
     useEffect(() => {
         createWebSocket(wsUrl);   //连接ws
         // 获取最近10条历史记录 
@@ -33,12 +86,15 @@ export default function Log(){
             const {data} = res;
             if(!data) return;
             setLogData((v:LogMessage[])=>data); 
+            setLoading(false)
         }).catch(err=>{
-            console.log(err);
+            throw err;
         })
+        addScrollListener(addLog)
         // 组件卸载时断开连接
         return () => {
             if(ws) closeSocket();
+            window.removeEventListener("scroll", debounce(()=>handleScrollBottom(addLog,50), 500));
         }
     },[])
 
@@ -123,13 +179,17 @@ export default function Log(){
     return <div className='log-ct'>
         <aside>
             <div className="control-ct">
-                <MySelect optionsList={LEVEL} title='日志级别' handleSelect={selectLevel}></MySelect>
-                <MySelect optionsList={TYPE} title='日志类型'handleSelect={selectType} ></MySelect>
+                <MySelect optionsList={LEVEL} title='日志级别' handleSelect={setLevel}></MySelect>
+                <MySelect optionsList={TYPE} title='日志类型'handleSelect={setType} ></MySelect>
+                <div className="control-filter" onClick={filter}>筛选</div>
             </div>
         </aside>
         <div className="log-content">
+            <LoadingCover loading={loading} tip='加载中...'/>
             {
-                logData.map((v:LogMessage,i)=><LogBox data={v} key={i}/>)
+                logData.length === 0
+                ?<Empty></Empty>
+                :logData.map((v:LogMessage,i)=><LogBox data={v} key={i}/>)
             } 
         </div>
     </div>

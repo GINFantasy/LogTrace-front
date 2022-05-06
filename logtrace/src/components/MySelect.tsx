@@ -7,13 +7,11 @@ interface SelectPropsType{
     handleSelect:Function
 }
 
-function handleChange(value:string) {
-    console.log(`selected ${value}`);
-}
-
 export default function MySelect(props:SelectPropsType){
-    const {optionsList,title,className} = props
-    
+    const {optionsList,title,className,handleSelect} = props
+    const handleChange = (value:string) => {
+        handleSelect(value)
+    }
     return <div className={`select-box ${className}`}>
         <span>{title}：</span>
         <Select defaultValue='ALL' style={{ width: 120 }} onChange={handleChange}>

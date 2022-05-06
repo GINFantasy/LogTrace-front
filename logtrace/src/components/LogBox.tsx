@@ -27,7 +27,7 @@ export default function LogBox (props:{data:LogMessage}){
     }
 
     return <div className='log-box'>
-        <div className="log-header">
+        <div className={`log-header ${isFold?'log-header-isread':''}`}>
             <span className="log-createTime" title="产生时间">{data.createTime}</span>
             <span className={`log-level-${data.level}`} title="级别">{data.level}</span>
             <span className="log-thread" title="所在线程">{data.thread}</span>

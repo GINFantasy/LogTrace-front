@@ -1,10 +1,10 @@
-import { React } from "react"
+import React from "react"
 import Log from "../pages/Log"
 
 interface Route{
     title:string,
     path:string,
-    component:React.component,
+    component:React.FunctionComponent,
     children?:Route[]
 }
 
