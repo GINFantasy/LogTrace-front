@@ -87,9 +87,9 @@
     .main-title{
         font-weight: bold;
         color: #bfbfbf;
-        span{
-            font-weight: normal;
+        span:not(.info-content-control span){
             display: inline-block;
+            font-weight: normal;
             max-width: calc(100% - 40px);
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -99,9 +99,10 @@
     }
     .log-datalist{
         margin: 10px 24px;
+        font-weight: normal;
     }
     .log-stackList{
-        
+        font-weight: normal;
         margin: 0 24px;
         li{
             white-space:normal;

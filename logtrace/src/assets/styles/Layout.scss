@@ -13,10 +13,29 @@
         display: flex;
         align-items: center;
         background: var(--theme-bgc);
+        justify-content: space-between;
         .logo{
             font-size: 24px;
             font-weight: bold;
             margin-left: 20px;
+        }
+        a{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            svg{
+                font-size: 24px;
+                text-align: center;
+                color: #8f8f8f;
+                transition: .3s all ease-out;
+                &:hover{
+                    color:#bfbfbf;
+                }
+            }
         }
     }
     

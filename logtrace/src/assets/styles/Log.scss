@@ -63,6 +63,7 @@
             transition: .3s all ease-out;
             border: 1px solid #bfbfbf;
             cursor: pointer;
+            user-select: none;
             &:hover{
                 border-color: #dfdfe1;
                 color: #dfdfe1;

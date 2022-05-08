@@ -1,4 +1,5 @@
 import { message } from "antd"
+import { useEffect } from "react"
 export const Message = {
     config:{
       duration:1.5
@@ -39,8 +40,18 @@ export function debounce(fn:Function, delay:number) {
     };
 }
 
-export function getLineNumber(dom:HTMLElement,lineheight:number){
+export function getLineNumber(dom:HTMLElement | null,lineheight:number){ 
+    if(dom === null){
+      return 3;
+    }    
     let styles = window.getComputedStyle(dom, null);
     let h = parseInt(styles.height, 10);
     return h/lineheight;
 }
+
+export const useMount = (callback:Function) => {
+  useEffect(() => {
+    callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+};

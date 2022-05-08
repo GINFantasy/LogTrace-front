@@ -1,34 +1,49 @@
-import  { useState } from 'react';
+import  { useRef, useState } from 'react';
 import { Typography } from 'antd';
+import { useMount } from '../utils/index';
 import {getLineNumber} from '../utils/index'
+import '../assets/styles/MyParagraph.scss'
 interface TextProps {
-  text: string;
-  rows?: number;
+  text: string;   // 内容
+  rows: number;  // 最大行数
 }
 const { Paragraph } = Typography;
+/**
+ * @description: 封装带收起展开的段落
+ * @param {TextProps} props
+ * @return {*}
+ * @author: GuluGuluu
+ */
 const MyParagraph = (props:TextProps) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);          
+  const [ellipsisAble,setEllipsisAble] = useState(false); // 控制是否能展开
   const {text,rows} = props;
-  //console.log(getLineNumber());
+  const paragraphDom = useRef<HTMLDivElement | null>(null)
+  useMount(()=>{
+    let linenum = getLineNumber(paragraphDom.current,24);
+    if( linenum > rows ){    // 行数大于所设值则展开按钮不可见
+      setEllipsisAble(true)
+    }
+  })
   
   return (
-    <div style={{ position: 'relative' }}>
+    <div ref={paragraphDom} className='paragraph-ct'>
       <Paragraph
         ellipsis={visible ? false : {
           rows: rows,
           expandable: true,
-          symbol: <div style={{ position: 'absolute', bottom: 0, right: 0,visibility:'hidden' }}>
-          <span className='info-content-control' onClick={() => setVisible(true)}>展开</span>
-        </div>}
-         }
-         className='info-content'
-       >
+          symbol: <div className='info-content-control' style={{ visibility:'hidden' }}>
+            <span onClick={() => setVisible(true)}>展开</span>
+          </div>}
+        }
+        className='info-content'
+      >
         {text}
-        {visible && <span className='info-content-control' onClick={() => setVisible(false)}>收起</span>}
+        {visible && <div className='info-content-control'><span onClick={() => setVisible(false)}>收起</span></div>}
       </Paragraph>
       {!visible && (
-        <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
-          <span className='info-content-control asd' onClick={() => setVisible(true)}>展开</span>
+        <div className='info-content-control' style={{ display:ellipsisAble?'block':'none' }}>
+          <span onClick={() => setVisible(true)}>展开</span>
         </div>
        )}
     </div>
