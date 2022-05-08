@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { wsUrl } from "../request/api";
 import { LogApi } from "../request/api";
 import MySelect from "../components/MySelect";
-import { TYPE, LEVEL } from "../data/test";
+import { TYPE, LEVEL } from "../data/options";
 import { Message } from "../utils/index";
 import { Empty, Badge } from "antd";
 import LoadingCover from "../components/LoadingCover";
@@ -132,7 +132,10 @@ export default function Log() {
     LogApi.getLog(param)
       .then((res) => {
         const { data } = res;
-        if (!(data instanceof Array)) {
+        if (!data) {
+          Message.warning("暂无历史日志");
+          return;
+        } else if (!(data instanceof Array)) {
           Message.error("服务器返回数据格式非数组，请检查！");
         } else {
           let scrollTop = document.documentElement.scrollTop; // 滚动条在Y轴滚动过的高度
@@ -154,7 +157,10 @@ export default function Log() {
     LogApi.getLog(initLogParam)
       .then((res) => {
         const { data } = res;
-        if (!data) return;
+        if (!data) {
+          Message.warning("暂无历史日志");
+          return;
+        }
         setLogData((v: LogMessage[]) => data);
         setLoading(false);
       })
@@ -261,7 +267,11 @@ export default function Log() {
   }, [count]);
 
   useEffect(() => {
-    Array.from(document.querySelectorAll(".log-box")).forEach((v) => {
+    let tempLogData = Array.from(document.querySelectorAll(".log-box")).slice(
+      0,
+      nowLogIndex + 1
+    );
+    tempLogData.forEach((v) => {
       observerRef.current.unobserve(v);
       observerRef.current.observe(v);
     });
