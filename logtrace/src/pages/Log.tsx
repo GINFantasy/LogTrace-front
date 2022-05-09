@@ -79,7 +79,10 @@ export default function Log() {
 
   // 回到第一条新日志
   const backToTheFirstNewLog = () => {
-    if (nowLogIndex <= 0) return;
+    if (nowLogIndex <= 0) {
+      document.documentElement.scrollTop = 0;
+      return;
+    };
     setCount((v) => v--);
     getRelativeDistance(
       ".log-box",
@@ -94,7 +97,7 @@ export default function Log() {
   const addScrollListener = (callback: Function) => {
     window.addEventListener(
       "scroll",
-      debounce(() => handleScrollBottom(callback, 50), 500)
+      debounce(() => handleScrollBottom(callback), 500)
     );
   };
   // 筛选
@@ -173,7 +176,7 @@ export default function Log() {
       if (ws) closeSocket();
       window.removeEventListener(
         "scroll",
-        debounce(() => handleScrollBottom(addLog, 50), 500)
+        debounce(() => handleScrollBottom(addLog), 500)
       );
       observerRef.current.disconnect();
     };
@@ -258,7 +261,7 @@ export default function Log() {
       }
       // 设置滚动条位置，防止新日志进来时当前视口往下滑
       document.documentElement.scrollTop =
-        scrollTop + document.documentElement.scrollHeight - scrollHeight;
+        scrollTop + document.documentElement.scrollHeight - scrollHeight - 20;
     };
   };
 

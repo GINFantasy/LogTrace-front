@@ -21,11 +21,11 @@ export const Message = {
     }
 }
 
-export const handleScrollBottom=(callback:Function,offset:number)=>{
+export const handleScrollBottom=(callback:Function)=>{
     let scrollTop=document.documentElement.scrollTop//滚动条在Y轴滚动过的高度
     let scrollHeight=document.documentElement.scrollHeight//滚动条的高度
     let clientHeight=document.documentElement.clientHeight//浏览器的可视高度
-    if(scrollTop+clientHeight >= scrollHeight - offset){
+    if(scrollTop+clientHeight >= scrollHeight){
         callback();
     }
 }
