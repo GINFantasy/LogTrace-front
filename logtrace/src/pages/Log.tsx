@@ -135,7 +135,7 @@ export default function Log() {
     LogApi.getLog(param)
       .then((res) => {
         const { data } = res;
-        if (!data) {
+        if (data.length === 0) {
           Message.warning("暂无历史日志");
           return;
         } else if (!(data instanceof Array)) {
@@ -160,14 +160,16 @@ export default function Log() {
     LogApi.getLog(initLogParam)
       .then((res) => {
         const { data } = res;
-        if (!data) {
+        if (data.length === 0) {
           Message.warning("暂无历史日志");
+          setLoading(false);
           return;
         }
         setLogData((v: LogMessage[]) => data);
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         throw err;
       });
     addScrollListener(addLog);
