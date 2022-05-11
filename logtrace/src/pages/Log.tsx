@@ -135,7 +135,7 @@ export default function Log() {
     LogApi.getLog(param)
       .then((res) => {
         const { data } = res;
-        if (data.length === 0) {
+        if (!data || data && data.length === 0) {
           Message.warning("暂无历史日志");
           return;
         } else if (!(data instanceof Array)) {
@@ -160,7 +160,7 @@ export default function Log() {
     LogApi.getLog(initLogParam)
       .then((res) => {
         const { data } = res;
-        if (data.length === 0) {
+        if (!data || data && data.length === 0) {
           Message.warning("暂无历史日志");
           setLoading(false);
           return;
@@ -229,6 +229,7 @@ export default function Log() {
         initEventHandle(ws);
       }
     } catch (e) {
+      Message.warning('Websocket连接错误，正在重试...');
       reconnect(url);
     }
   };
@@ -242,7 +243,7 @@ export default function Log() {
     };
     ws.onerror = function (res) {
       connect = false;
-      console.log("连接错误!", res);
+      Message.warning('Websocket连接错误，正在重试...');
     };
     ws.onopen = function () {
       heartCheck.reset().start(); //心跳检测重置
@@ -263,7 +264,7 @@ export default function Log() {
       }
       // 设置滚动条位置，防止新日志进来时当前视口往下滑
       document.documentElement.scrollTop =
-        scrollTop + document.documentElement.scrollHeight - scrollHeight - 20;
+        scrollTop + document.documentElement.scrollHeight - scrollHeight;
     };
   };
 

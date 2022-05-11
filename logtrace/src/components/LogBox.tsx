@@ -65,7 +65,7 @@ export default function LogBox(props: { data: LogMessage; index: number }) {
           <li className="main-title">
             所属方法：<span>{data.methodName}</span>
           </li>
-          {data.paramList.length === 0 ? (
+          {data.paramList === null? (
             <></>
           ) : (
             <li className="main-title">

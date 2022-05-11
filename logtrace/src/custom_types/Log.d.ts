@@ -33,7 +33,7 @@ export interface LogMessage{
     requestPath:string,     // 请求路径
     className:string,       // 请求父类
     methodName:string,      // 请求方法
-    paramList:Param[],      // 入参列表
+    paramList:Param[] | null,      // 入参列表
     returnString:string,    // 请求返回值
     logDataList:LogData[],  // 具体日志信息列表
     stackList:string[]      // 堆栈调用信息
