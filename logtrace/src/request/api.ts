@@ -1,8 +1,7 @@
 import Request from './request'
 const DOMAIN = location.href.split('http')[1];
 const URL = location.pathname;
-//export const wsUrl:string = `ws${DOMAIN}`; // 拿新日志
-export const wsUrl:string = `ws://39.98.41.126:31100${URL}`; // 拿新日志
+export const wsUrl:string = `ws${DOMAIN}`; // 拿新日志
 
 export const API = {
     getLog:URL
