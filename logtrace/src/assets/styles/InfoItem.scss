@@ -26,6 +26,11 @@
     }
     .info-site{
         color: #2979c1;
+        cursor: pointer;
+        transition: .3s all ease-out;
+        &:hover{
+            color: #61aae9;
+        }
     } 
     .info-content{
         max-width: 100%;

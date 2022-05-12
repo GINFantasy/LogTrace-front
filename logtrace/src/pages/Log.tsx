@@ -1,5 +1,5 @@
 import "../assets/styles/Log.scss";
-import { LogMessage } from "custom_types/Log";
+import { LogMessage,CodeObj } from "custom_types/Log";
 import LogBox from "../components/LogBox";
 import { useEffect, useState, useRef } from "react";
 import { wsUrl } from "../request/api";
@@ -7,9 +7,10 @@ import { LogApi } from "../request/api";
 import MySelect from "../components/MySelect";
 import { TYPE, LEVEL } from "../data/options";
 import { Message } from "../utils/index";
-import { Empty, Badge } from "antd";
+import { Empty, Badge, Modal, Button } from "antd";
 import LoadingCover from "../components/LoadingCover";
 import { handleScrollBottom, debounce } from "../utils/index";
+import Code from '../components/Code'
 type Ws = WebSocket | null;
 const MAX: number = 10;
 const initLogParam = {
@@ -47,6 +48,30 @@ export default function Log() {
   const [logData, setLogData] = useState<LogMessage[]>([]);
   const [type, setType] = useState<string>("ALL");
   const [level, setLevel] = useState<string>("ALL");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [codeObj,setCodeObj] = useState<CodeObj>({className:'',line:0,code:'',method:''});
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+  const handleClose = () => {
+    setIsModalVisible(false);
+  };
+  const locateCode = (className:string) => {
+    const param = {
+      className
+    }
+    // 调接口
+    LogApi.getCode(param).then(res=>{
+      const {data} = res;
+      console.log(data);
+      
+      setCodeObj(data)
+      setIsModalVisible(true)
+    }).catch(err=>{
+      throw err;
+    });
+  }
+
   // 创建IntersectionObserver示例，用于监听日志是否进入视口，进入则停止监听
   const observerRef = useRef(
     new IntersectionObserver(
@@ -285,6 +310,10 @@ export default function Log() {
 
   return (
     <div className="log-ct">
+      <Modal title="代码定位" onCancel={handleClose} visible={isModalVisible} footer={[
+            <Button key={`button`} onClick={handleOk}>OK</Button>]} wrapClassName="log-modal">
+            <Code key={`code`} codeObj={codeObj}></Code>
+      </Modal>
       <aside>
         <div className="control-ct">
           <MySelect
@@ -323,6 +352,7 @@ export default function Log() {
               data={v}
               index={i}
               key={`${v.createTime}-${v.className}-${i}`}
+              locateCode={locateCode}
             />
           ))
         )}

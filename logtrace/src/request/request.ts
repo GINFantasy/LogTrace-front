@@ -19,9 +19,11 @@ Request.interceptors.request.use((config:any) => {
 Request.interceptors.response.use((data:any)=> {
   if(!data){
     Message.error('数据获取异常');
-    return;
+    return Promise.reject(null);
   }
-  return data;
+  else{
+    return Promise.resolve(data);
+  }
 }, (err:any)=> {
   if (err.response.status === 504||err.response.status === 404) {
     Message.error('服务器出现问题！');
@@ -32,7 +34,7 @@ Request.interceptors.response.use((data:any)=> {
   }else {
     Message.error('未知错误！');
   }
-  return Promise.resolve(err);
+  return Promise.reject(err);
 })
 
 

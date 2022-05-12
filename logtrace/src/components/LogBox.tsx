@@ -8,8 +8,8 @@ import ParamList from "./ParamList";
  * @param {object} props 日志数据 索引值
  * @author: GuluGuluu
  */
-export default function LogBox(props: { data: LogMessage; index: number }) {
-  const { data, index } = props;
+export default function LogBox(props: { data: LogMessage, index: number, locateCode:Function}) {
+  const { data, index ,locateCode} = props;
   if (!data) return <></>;
   const [isRead, setIsRead] = useState<number>(data.read);
   const [isFold, setIsFold] = useState<number>(data.read);
@@ -82,6 +82,7 @@ export default function LogBox(props: { data: LogMessage; index: number }) {
               {data.logDataList.map((v, i) => (
                 <InfoItem
                   data={v}
+                  locateCode={locateCode}
                   key={`${data.createTime}-${data.logDataList}-${i}`}
                 />
               ))}
@@ -106,6 +107,7 @@ export default function LogBox(props: { data: LogMessage; index: number }) {
         <ol className={`log-datalist ${isFold ? "log-main-isread" : ""}`}>
           {data.logDataList.map((v, i) => (
             <InfoItem
+              locateCode={locateCode}
               data={v}
               key={`${data.createTime}-${data.logDataList}-${i}`}
             />

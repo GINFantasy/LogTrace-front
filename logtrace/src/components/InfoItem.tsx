@@ -8,12 +8,15 @@ import MyParagraph from "./MyParagraph";
  * @return {*}
  * @author: GuluGuluu
  */
-export default function InfoItem(props: { data: LogData }) {
-  const { data } = props;
+export default function InfoItem(props: { data: LogData,locateCode:Function }) {
+  const { data,  locateCode } = props;
+  if(!data) {
+    return <></>
+  }
   return (
     <li className="log-info-item">
-      <span className={`info-level-${data?.level}`}>{data?.level}</span>
-      <span className="info-site">{data?.site}</span>：
+      <span className={`info-level-${data.level}`}>{data.level}</span>
+      <span className="info-site" onClick={()=>locateCode(data.site)}>{data.site}</span>：
       {data?.content ? (
         <MyParagraph rows={3} text={data.content} />
       ) : (
